@@ -5,7 +5,7 @@ from io import BytesIO
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
-st.title("GSTR-2B vs GSTR-2A Merger Tool")
+st.title("GSTR-2B Rate Wise Report Tool")
 
 gstr2b_file = st.file_uploader("Upload GSTR-2B Excel File (B2B Sheet)", type="xlsx")
 
