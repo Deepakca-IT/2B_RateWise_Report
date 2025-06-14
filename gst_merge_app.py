@@ -133,6 +133,15 @@ if gstr2b_file:
 
                     excel_bytes = prepare_output_excel(merged)
 
+                    # Calculate and display taxable value summary
+                    taxable_2b = df2b["Taxable Value (₹)"].sum()
+                    taxable_final = merged["Taxable Value (₹)_y"].sum()
+                    
+                    st.markdown("### 📊 Taxable Value Comparison")
+                    st.write(f"**Taxable Value as per GSTR-2B:** ₹{taxable_2b:,.2f}")
+                    st.write(f"**Taxable Value (from GSTR-2A) in Final Report:** ₹{taxable_final:,.2f}")
+                    st.info("Compare the values above to ensure the reconciliation is aligned.")
+
                     st.success("Merge completed successfully!")
                     st.download_button("Download Merged Excel", data=excel_bytes,
                                        file_name="merged_gstr_data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
