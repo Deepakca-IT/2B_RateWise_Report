@@ -17,11 +17,22 @@ def get_authorized_clients():
 
 def is_authorized(gstin, access_df):
     today = pd.Timestamp.today().normalize()
+
+    # Check for a universal ALL-GSTIN access
+    match_all = access_df[access_df['GSTIN'].str.upper() == "ALL"]
+    if not match_all.empty:
+        start = pd.to_datetime(match_all.iloc[0]['Start Date'])
+        end = pd.to_datetime(match_all.iloc[0]['End Date'])
+        if start <= today <= end:
+            return True
+
+    # Standard GSTIN-specific check
     match = access_df[access_df['GSTIN'] == gstin]
     if not match.empty:
         start = pd.to_datetime(match.iloc[0]['Start Date'])
         end = pd.to_datetime(match.iloc[0]['End Date'])
         return start <= today <= end
+
     return False
 
 def extract_gstin_from_readme(file):
