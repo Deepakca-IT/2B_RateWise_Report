@@ -6,7 +6,8 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from datetime import datetime
 
-st.title("GSTR-2B vs GSTR-2A Merger Tool (Client Access Controlled)")
+st.title("GSTR-2B Rate Wise Report Tool")
+st.markdown("⚠️ *Note: This tool analyzes only data from the **B2B** section of GSTR-2B and GSTR-2A.*")
 
 # Load access control list from GitHub
 CLIENT_CSV_URL = "https://raw.githubusercontent.com/Deepakca-IT/2B_RateWise_Report/main/clients.csv"
