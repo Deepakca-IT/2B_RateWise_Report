@@ -33,7 +33,7 @@ def load_and_clean_gstr2a(files):
         "Rate (%)", "Taxable Value (₹)", "Integrated Tax  (₹)", "Central Tax (₹)",
         "State/UT tax (₹)", "Cess  (₹)", "GSTR-1/5 Filing Status", "GSTR-1/5 Filing Date",
         "GSTR-1/5 Filing Period", "GSTR-3B Filing Status", "Amendment made, if any",
-        "Tax Period in which Amended", "Effective date of cancellation", "Source,"IRN","IRN date"
+        "Tax Period in which Amended", "Effective date of cancellation", "Source","IRN","IRN date"
     ]
     for file in files:
         df = pd.read_excel(file, sheet_name="B2B", header=None, skiprows=6)
