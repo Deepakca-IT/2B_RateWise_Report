@@ -14,10 +14,10 @@ def load_gstr2b(file):
     columns = [
         "GSTIN of supplier", "Trade/Legal name", "Invoice number", "Invoice type",
         "Invoice Date", "Invoice Value(₹)", "Place of supply", "Supply Attract Reverse Charge",
-        "Rate(%)", "Taxable Value (₹)", "Integrated Tax(₹)", "Central Tax(₹)",
+        "Taxable Value (₹)", "Integrated Tax(₹)", "Central Tax(₹)",
         "State/UT Tax(₹)", "Cess(₹)", "GSTR-1/5 Period", "GSTR-1/5 Filing Date",
         "ITC Availability", "Reason", "Applicable % of Tax Rate", "Source", "IRN",
-        "IRN Date", "Period"
+        "IRN Date"
     ]
     df = pd.read_excel(file, sheet_name="B2B", header=None, skiprows=6)
     df.columns = columns
@@ -33,7 +33,7 @@ def load_and_clean_gstr2a(files):
         "Rate (%)", "Taxable Value (₹)", "Integrated Tax  (₹)", "Central Tax (₹)",
         "State/UT tax (₹)", "Cess  (₹)", "GSTR-1/5 Filing Status", "GSTR-1/5 Filing Date",
         "GSTR-1/5 Filing Period", "GSTR-3B Filing Status", "Amendment made, if any",
-        "Tax Period in which Amended", "Effective date of cancellation", "Period"
+        "Tax Period in which Amended", "Effective date of cancellation", "Source,"IRN","IRN date"
     ]
     for file in files:
         df = pd.read_excel(file, sheet_name="B2B", header=None, skiprows=6)
