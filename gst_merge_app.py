@@ -72,7 +72,7 @@ if gstr2b_file:
     df2b = load_gstr2b(gstr2b_file)
     available_months = sorted(df2b['Month-Year'].dropna().unique().tolist())
 
-    st.markdown("### Available Months in GSTR-2B:")
+    st.markdown("### Import following Months GSTR-2A Excel file:")
     st.write(available_months)
 
     gstr2a_files = st.file_uploader("Upload GSTR-2A Excel File(s)", type="xlsx", accept_multiple_files=True)
