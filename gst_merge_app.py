@@ -158,4 +158,4 @@ if gstr2b_file:
                     st.download_button("Download Merged Excel", data=excel_bytes,
                                        file_name="merged_gstr_data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     else:
-        st.error("❌ This GSTIN is not authorized or access period has expired.")
+        st.error("❌ This GSTIN is not authorized or access period has expired.Please Contact CA DSP-8778331203")
