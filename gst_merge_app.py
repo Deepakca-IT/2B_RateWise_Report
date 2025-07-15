@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 from io import BytesIO
@@ -35,13 +34,13 @@ def is_authorized(gstin, access_df):
 
     return False
 
-def extract_gstin_from_readme(file):
+def extract_gstin_from_gstr2a(file):
     try:
         readme = pd.read_excel(file, sheet_name="Read me", header=None)
-        gstin = str(readme.iloc[5, 2]).strip()
+        gstin = str(readme.iloc[1, 2]).strip()  # Row index 1 (0-based) is row 2 in Excel, column C (index 2)
         return gstin
     except Exception:
-        st.error("❌ Could not read GSTIN from the 'Read me' sheet.")
+        st.error("❌ Could not read GSTIN from the 'Read me' sheet (cell C2) in GSTR-2A file.")
         return None
 
 def load_gstr2b(file):
@@ -106,20 +105,21 @@ def prepare_output_excel(df):
 gstr2b_file = st.file_uploader("Upload GSTR-2B Excel File (B2B Sheet)", type="xlsx")
 
 if gstr2b_file:
-    gstin_in_file = extract_gstin_from_readme(gstr2b_file)
-    access_df = get_authorized_clients()
+    df2b = load_gstr2b(gstr2b_file)
+    available_months = sorted(df2b['Month-Year'].dropna().unique().tolist())
 
-    if gstin_in_file and is_authorized(gstin_in_file, access_df):
-        st.success(f"✅ Authorized GSTIN: {gstin_in_file}")
-        df2b = load_gstr2b(gstr2b_file)
-        available_months = sorted(df2b['Month-Year'].dropna().unique().tolist())
+    st.markdown("### Available Months in GSTR-2B:")
+    st.write(available_months)
 
-        st.markdown("### Available Months in GSTR-2B:")
-        st.write(available_months)
+    gstr2a_files = st.file_uploader("Upload GSTR-2A Excel File(s)", type="xlsx", accept_multiple_files=True)
 
-        gstr2a_files = st.file_uploader("Upload GSTR-2A Excel File(s)", type="xlsx", accept_multiple_files=True)
+    if gstr2a_files:
+        # Extract GSTIN from first GSTR-2A file's Read me sheet (cell C2)
+        gstin_in_file = extract_gstin_from_gstr2a(gstr2a_files[0])
+        access_df = get_authorized_clients()
 
-        if gstr2a_files:
+        if gstin_in_file and is_authorized(gstin_in_file, access_df):
+            st.success(f"✅ Authorized GSTIN: {gstin_in_file}")
             df2a = load_and_clean_gstr2a(gstr2a_files)
 
             if st.button("Reconcile Now"):
@@ -157,5 +157,5 @@ if gstr2b_file:
                     st.success("Merge completed successfully!")
                     st.download_button("Download Merged Excel", data=excel_bytes,
                                        file_name="merged_gstr_data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    else:
-        st.error("❌ This GSTIN is not authorized or access period has expired.Please Contact CA DSP-8778331203")
+        else:
+            st.error("❌ This GSTIN is not authorized or access period has expired. Please Contact CA DSP-8778331203")
