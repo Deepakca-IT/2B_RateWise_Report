@@ -55,7 +55,7 @@ def load_gstr2b(file):
     df = pd.read_excel(file, sheet_name="B2B", header=None, skiprows=6)
     df.columns = columns
     df['Invoice Date'] = pd.to_datetime(df['Invoice Date'], dayfirst=True, errors='coerce')
-    df['Month-Year'] = df['Invoice Date'].dt.strftime('%B-%y')
+    df['Month-Year'] = df['GSTR-1/5 Period']
     return df
 
 def load_and_clean_gstr2a(files):
